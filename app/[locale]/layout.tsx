@@ -55,6 +55,7 @@ export default async function RootLayout({
               </div>
             </ThemeProvider>
           </NextIntlClientProvider>
+          <TailwindIndicator />
         </body>
       </html>
     </>
