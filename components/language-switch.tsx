@@ -1,24 +1,44 @@
 'use client'
 
-import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from '@/core/i18n/navigation'
+import { Icons } from '@/components/icons'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { buttonVariants } from './ui/button'
 
 export function LanguageSwitch() {
   const router = useRouter()
   const pathname = usePathname()
-  const locale = useLocale()
 
-  const toggleLanguage = () => {
-    const newLocale = locale === 'zh' ? 'en' : 'zh'
+  const toggleLanguage = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale })
   }
 
   return (
-    <div 
-      onClick={toggleLanguage}
-      className="cursor-pointer px-4 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-    >
-      {locale === 'zh' ? 'English' : '中文'}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <div
+          className={buttonVariants({
+            size: 'icon',
+            variant: 'ghost',
+          })}
+        >
+          <Icons.languages className="h-4 w-4" />
+          <span className="sr-only">Language</span>
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => toggleLanguage('en')}>
+          English
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => toggleLanguage('zh')}>
+          中文
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
